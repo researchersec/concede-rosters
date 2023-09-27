@@ -22,12 +22,58 @@
         const response = await fetch('players.json');
         const players = await response.json();
 
-        // Function to generate rosters
-        function generateRosters(players, numRosters) {
-            // Your roster generating logic here
-            // Return the generated rosters
-            return rosters;
+    function generateRosters(players, numRosters) {
+    const tank_classes = ['Prot Warrior', 'Prot Paladin', 'Feral Druid Tank', 'Blood DK Tank'];
+    const healer_classes = ['Holy Paladin', 'Disc Priest', 'Holy Priest', 'Resto Druid', 'Resto Shaman'];
+
+    // Separate players into tanks, healers, and dps
+    const tanks = players.filter(player => tank_classes.includes(player.class));
+    const healers = players.filter(player => healer_classes.includes(player.class));
+    const dps = players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class));
+
+    // Initialize empty rosters
+    const rosters = [];
+
+    for (let i = 0; i < numRosters; i++) {
+        let roster = [];
+        let global_added_players = new Set();
+
+        // Add at least two tanks and two healers to the roster
+        while (roster.length < 2 && tanks.length > 0) {
+            const tank = tanks.shift();
+            if (!global_added_players.has(tank.name + tank.class)) {
+                roster.push(tank);
+                global_added_players.add(tank.name + tank.class);
+            }
         }
+
+        while (roster.length < 4 && healers.length > 0) {
+            const healer = healers.shift();
+            if (!global_added_players.has(healer.name + healer.class)) {
+                roster.push(healer);
+                global_added_players.add(healer.name + healer.class);
+            }
+        }
+
+        // Add DPS players to fill the rest of the roster
+        while (roster.length < 10 && dps.length > 0) {
+            const dp = dps.shift();
+            if (!global_added_players.has(dp.name + dp.class)) {
+                roster.push(dp);
+                global_added_players.add(dp.name + dp.class);
+            }
+        }
+
+        // Shuffle the roster
+        roster = roster.sort(() => Math.random() - 0.5);
+
+        // Add the roster to the list of rosters
+        rosters.push(roster);
+    }
+
+    return rosters;
+}
+
 
         // Call the function to generate rosters and pass the players data and numRosters
         const rosters = generateRosters(players, numRosters);
