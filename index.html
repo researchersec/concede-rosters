@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Rosters</title>
+</head>
+<body>
+    <!-- Button to Generate Rosters -->
+    <button id="generateBtn">Generate Rosters</button>
+    <input type="number" id="numRosters" name="numRosters" min="1" placeholder="Number of Rosters" value="1">
+
+    <!-- Display Rosters -->
+    <div id="rosters"></div>
+
+    <!-- JavaScript to Load Data, Generate and Display Rosters -->
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', async function() {
+            const numRosters = document.getElementById('numRosters').value || 1;
+            
+            // Load the player data from the uploaded JSON file
+            const response = await fetch('players.json');
+            const players = await response.json();
+
+            // Call the function to generate rosters and pass the players data and numRosters
+            // Display the rosters in the 'rosters' div.
+        });
+    </script>
+</body>
+</html>
