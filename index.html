@@ -27,41 +27,41 @@
     const healer_classes = ['Holy Paladin', 'Disc Priest', 'Holy Priest', 'Resto Druid', 'Resto Shaman'];
 
     let rosters = [];
-    let global_added_players = new Set();
 
     for (let i = 0; i < numRosters; i++) {
         let roster = [];
-        let local_added_players = new Set();  // This set is used to keep track of players that have been added to the current roster
+        let local_added_players = new Set();  // This set keeps track of players that have been added to the current roster
+        let local_added_classes = new Set();  // This set keeps track of classes that have been added to the current roster
 
         // Separate players into tanks, healers, and dps for each roster generation
-        let tanks = players.filter(player => tank_classes.includes(player.class) && !global_added_players.has(player.name));
-        let healers = players.filter(player => healer_classes.includes(player.class) && !global_added_players.has(player.name));
-        let dps = players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class) && !global_added_players.has(player.name));
+        let tanks = players.filter(player => tank_classes.includes(player.class));
+        let healers = players.filter(player => healer_classes.includes(player.class));
+        let dps = players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class));
 
         while (roster.length < 2 && tanks.length > 0) {
             const tank = tanks.shift();
-            if (!local_added_players.has(tank.name)) {
+            if (!local_added_players.has(tank.name) && (!local_added_classes.has(tank.class) || tanks.length == 0)) {
                 roster.push(tank);
                 local_added_players.add(tank.name);
-                global_added_players.add(tank.name);
+                local_added_classes.add(tank.class);
             }
         }
 
         while (roster.length < 4 && healers.length > 0) {
             const healer = healers.shift();
-            if (!local_added_players.has(healer.name)) {
+            if (!local_added_players.has(healer.name) && (!local_added_classes.has(healer.class) || healers.length == 0)) {
                 roster.push(healer);
                 local_added_players.add(healer.name);
-                global_added_players.add(healer.name);
+                local_added_classes.add(healer.class);
             }
         }
 
         while (roster.length < 10 && dps.length > 0) {
             const dp = dps.shift();
-            if (!local_added_players.has(dp.name)) {
+            if (!local_added_players.has(dp.name) && (!local_added_classes.has(dp.class) || dps.length == 0)) {
                 roster.push(dp);
                 local_added_players.add(dp.name);
-                global_added_players.add(dp.name);
+                local_added_classes.add(dp.class);
             }
         }
 
@@ -74,9 +74,6 @@
 
     return rosters;
 }
-
-
-
 
         // Call the function to generate rosters and pass the players data and numRosters
         const rosters = generateRosters(players, numRosters);
