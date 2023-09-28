@@ -26,46 +26,42 @@
     const tank_classes = ['Prot Warrior', 'Prot Paladin', 'Feral Druid Tank', 'Blood DK Tank'];
     const healer_classes = ['Holy Paladin', 'Disc Priest', 'Holy Priest', 'Resto Druid', 'Resto Shaman'];
 
-    // Separate players into tanks, healers, and dps
-    let tanks = players.filter(player => tank_classes.includes(player.class));
-    let healers = players.filter(player => healer_classes.includes(player.class));
-    let dps = players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class));
-
-    // Initialize empty rosters
-    const rosters = [];
+    let rosters = [];
     let global_added_players = new Set();
 
     for (let i = 0; i < numRosters; i++) {
         let roster = [];
+        let local_added_players = new Set();  // This set is used to keep track of players that have been added to the current roster
 
-        // Create a copy of tanks, healers, and dps for local modifications
-        let localTanks = [...tanks];
-        let localHealers = [...healers];
-        let localDps = [...dps];
+        // Separate players into tanks, healers, and dps for each roster generation
+        let tanks = players.filter(player => tank_classes.includes(player.class) && !global_added_players.has(player.name));
+        let healers = players.filter(player => healer_classes.includes(player.class) && !global_added_players.has(player.name));
+        let dps = players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class) && !global_added_players.has(player.name));
 
-        // Add at least two tanks and two healers to the roster
-        while (roster.length < 2 && localTanks.length > 0) {
-            const tank = localTanks.shift();
-            if (!global_added_players.has(tank.name + tank.class)) {
+        while (roster.length < 2 && tanks.length > 0) {
+            const tank = tanks.shift();
+            if (!local_added_players.has(tank.name)) {
                 roster.push(tank);
-                global_added_players.add(tank.name + tank.class);
+                local_added_players.add(tank.name);
+                global_added_players.add(tank.name);
             }
         }
 
-        while (roster.length < 4 && localHealers.length > 0) {
-            const healer = localHealers.shift();
-            if (!global_added_players.has(healer.name + healer.class)) {
+        while (roster.length < 4 && healers.length > 0) {
+            const healer = healers.shift();
+            if (!local_added_players.has(healer.name)) {
                 roster.push(healer);
-                global_added_players.add(healer.name + healer.class);
+                local_added_players.add(healer.name);
+                global_added_players.add(healer.name);
             }
         }
 
-        // Add DPS players to fill the rest of the roster
-        while (roster.length < 10 && localDps.length > 0) {
-            const dp = localDps.shift();
-            if (!global_added_players.has(dp.name + dp.class)) {
+        while (roster.length < 10 && dps.length > 0) {
+            const dp = dps.shift();
+            if (!local_added_players.has(dp.name)) {
                 roster.push(dp);
-                global_added_players.add(dp.name + dp.class);
+                local_added_players.add(dp.name);
+                global_added_players.add(dp.name);
             }
         }
 
@@ -78,6 +74,7 @@
 
     return rosters;
 }
+
 
 
 
