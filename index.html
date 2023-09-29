@@ -109,17 +109,18 @@
 
 
         const remainingDiv = document.createElement('div');
-        remainingDiv.classList.add('custom-col'); // Add this line to add a class to the div
-        remainingDiv.innerHTML = '<strong>Players not belonging to a roster:</strong><br>';
-        remainingDiv.innerHTML += `<table class="table table-dark table-striped custom-table"><tbody>`;
+        remainingDiv.classList.add('custom-col');
+        let remainingHTML = '<strong>Players not belonging to a roster:</strong><br>';
+        remainingHTML += `<table class="table table-dark table-striped custom-table"><tbody>`;
         remaining_players.forEach(player => {
-            remainingDiv.innerHTML += `
+            remainingHTML += `
             <tr>
                 <td><img src="${player.url}" style="width:30px;height:30px;"/></td>
                 <td><strong>${player.name}</strong></td>
             </tr>`;
         });
-        remainingDiv.innerHTML += `</tbody></table>`;
+        remainingHTML += `</tbody></table>`;
+        remainingDiv.innerHTML = remainingHTML;
         document.getElementById('remainingPlayers').appendChild(remainingDiv);
         });
 </script>
