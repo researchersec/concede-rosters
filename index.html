@@ -82,17 +82,20 @@
     const rosterDiv = document.createElement('div');
     let tableHTML = `<strong>Roster ${index + 1}:</strong><br>`;
     tableHTML += `<table class="table table-dark table-striped"><tbody>`;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
         tableHTML += `
         <tr>
             <td><img src="${roster[i].url}" style="width:30px;height:30px;"/></td>
             <td>${roster[i].name} - ${roster[i].class}</td>
+            <td><img src="${roster[i + 5].url}" style="width:30px;height:30px;"/></td>
+            <td>${roster[i + 5].name} - ${roster[i + 5].class}</td>
         </tr>`;
     }
     tableHTML += `</tbody></table>`;
     rosterDiv.innerHTML = tableHTML;
     document.getElementById('rosters').appendChild(rosterDiv);
 });
+
 
     const remainingDiv = document.createElement('div');
     remainingDiv.innerHTML = '<strong>Players not belonging to a roster:</strong><br>';
