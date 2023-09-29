@@ -22,14 +22,13 @@
         document.getElementById('generateBtn').addEventListener('click', async function () {
     const numRosters = document.getElementById('numRosters').value || 1;
 
-    // Load the player data from the uploaded JSON file
     const response = await fetch('players.json');
     const players = await response.json();
 
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
     }
@@ -37,90 +36,69 @@
     function generateRosters(players, numRosters) {
         const tank_classes = ['Prot Warrior', 'Prot Paladin', 'Feral Druid Tank', 'Blood DK Tank'];
         const healer_classes = ['Holy Paladin', 'Disc Priest', 'Holy Priest', 'Resto Druid', 'Resto Shaman'];
-        const all_added_players = new Set();
+        const all_added = new Set();
 
         let rosters = [];
 
         for (let i = 0; i < numRosters; i++) {
             let roster = [];
-            let local_added_players = new Set();
 
-            let tanks = shuffle(players.filter(player => tank_classes.includes(player.class) && !all_added_players.has(player.name)));
-            let healers = shuffle(players.filter(player => healer_classes.includes(player.class) && !all_added_players.has(player.name)));
-            let dps = shuffle(players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class) && !all_added_players.has(player.name)));
+            let tanks = shuffle(players.filter(player => tank_classes.includes(player.class) && !all_added.has(player.name + player.class)));
+            let healers = shuffle(players.filter(player => healer_classes.includes(player.class) && !all_added.has(player.name + player.class)));
+            let dps = shuffle(players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class) && !all_added.has(player.name + player.class)));
 
             while (roster.length < 2 && tanks.length > 0) {
                 const tank = tanks.shift();
-                if (!local_added_players.has(tank.name)) {
-                    roster.push(tank);
-                    local_added_players.add(tank.name);
-                    all_added_players.add(tank.name);
-                }
+                roster.push(tank);
+                all_added.add(tank.name + tank.class);
             }
 
             while (roster.length < 4 && healers.length > 0) {
                 const healer = healers.shift();
-                if (!local_added_players.has(healer.name)) {
-                    roster.push(healer);
-                    local_added_players.add(healer.name);
-                    all_added_players.add(healer.name);
-                }
+                roster.push(healer);
+                all_added.add(healer.name + healer.class);
             }
 
             while (roster.length < 10 && dps.length > 0) {
                 const dp = dps.shift();
-                if (!local_added_players.has(dp.name)) {
-                    roster.push(dp);
-                    local_added_players.add(dp.name);
-                    all_added_players.add(dp.name);
-                }
+                roster.push(dp);
+                all_added.add(dp.name + dp.class);
             }
 
-            // Shuffle the roster
             roster = shuffle(roster);
             rosters.push(roster);
         }
 
-        const remaining_players = players.filter(player => !all_added_players.has(player.name));
+        const remaining_players = players.filter(player => !all_added.has(player.name + player.class));
         return { rosters, remaining_players };
     }
 
-    // Call the function to generate rosters and pass the players data and numRosters
     const { rosters, remaining_players } = generateRosters(players, numRosters);
 
-    // Clear previous rosters and remaining players
     document.getElementById('rosters').innerHTML = '';
     document.getElementById('remainingPlayers').innerHTML = '';
 
-    // Display the generated rosters
     rosters.forEach((roster, index) => {
         const rosterDiv = document.createElement('div');
         rosterDiv.innerHTML = `<strong>Roster ${index + 1}:</strong><br>`;
-        roster.forEach(player => {
-            if (player !== null) {
-                rosterDiv.innerHTML += `
-                <div class="card text-white bg-secondary mb-2" style="max-width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title"><img src="${player.url}" style="width:30px;height:30px;"/> ${player.name}</h5>
-                        <p class="card-text">Class: ${player.class}</p>
-                    </div>
-                </div>`;
-            }
-        });
+        rosterDiv.innerHTML += `<table class="table table-dark table-striped"><tbody>`;
+        for (let i = 0; i < 5; i++) {
+            rosterDiv.innerHTML += `
+            <tr>
+                <td><img src="${roster[i].url}" style="width:30px;height:30px;"/></td>
+                <td>${roster[i].name} - ${roster[i].class}</td>
+                <td><img src="${roster[i+5].url}" style="width:30px;height:30px;"/></td>
+                <td>${roster[i+5].name} - ${roster[i+5].class}</td>
+            </tr>`;
+        }
+        rosterDiv.innerHTML += `</tbody></table>`;
         document.getElementById('rosters').appendChild(rosterDiv);
     });
 
-    // Display the players not belonging to a roster
     const remainingDiv = document.createElement('div');
     remainingDiv.innerHTML = '<strong>Players not belonging to a roster:</strong><br>';
     remaining_players.forEach(player => {
-        remainingDiv.innerHTML += `
-        <div class="card text-white bg-secondary mb-2" style="max-width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title"><img src="${player.url}" style="width:30px;height:30px;"/> ${player.name}</h5>
-                <p class="card-text">Class: ${player.class}</p>
-            </div>
-        </div>`;
+        remainingDiv.innerHTML += `<p><img src="${player.url}" style="width:30px;height:30px;"/> ${player.name} - ${player.class}</p>`;
     });
     document.getElementById('remainingPlayers').appendChild(remainingDiv);
 });
