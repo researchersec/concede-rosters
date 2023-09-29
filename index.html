@@ -110,11 +110,17 @@
 
         const remainingDiv = document.createElement('div');
         remainingDiv.innerHTML = '<strong>Players not belonging to a roster:</strong><br>';
+        remainingDiv.innerHTML += `<table class="table table-dark table-striped custom-table"><tbody>`;
         remaining_players.forEach(player => {
-            remainingDiv.innerHTML += `<p><img src="${player.url}" style="width:30px;height:30px;"/> ${player.name} - ${player.class}</p>`;
+            remainingDiv.innerHTML += `
+            <tr>
+                <td><img src="${player.url}" style="width:30px;height:30px;"/></td>
+                <td><strong>${player.name}</strong></td>
+                <td>${player.class}</td>
+            </tr>`;
         });
+        remainingDiv.innerHTML += `</tbody></table>`;
         document.getElementById('remainingPlayers').appendChild(remainingDiv);
-    });
 </script>
     </div>
 </body>
