@@ -8,14 +8,14 @@
 </head>
 <body class="bg-dark text-white">
     <div class="container mt-5">
-        <div class="row">
-        <div class="col-sm">
     <!-- Button to Generate Rosters -->
     <button id="generateBtn" class="btn btn-dark">Generate Rosters</button>
     <input type="number" id="numRosters" name="numRosters" min="1" placeholder="Number of Rosters" value="1" class="form-control" style="width: 150px; display: inline-block;">
 
     <!-- Display Rosters -->
-    <div id="rosters"></div>
+    <div id="rosters" class="row">
+        <div class="col-sm"></div>
+    </div>
 
     <!-- Display Players not belonging to a roster -->
     <div id="remainingPlayers"></div>
@@ -107,6 +107,6 @@
         document.getElementById('remainingPlayers').appendChild(remainingDiv);
     });
 </script>
-    </div></div></div>
+    </div>
 </body>
 </html>
