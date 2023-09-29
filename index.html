@@ -6,6 +6,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Generate Rosters</title>
     <style>
+    .custom-table { margin: 20px; width: 100%; }
     .custom-col {
         margin-right: 15px;
     }
@@ -89,14 +90,14 @@
         rosters.forEach((roster, index) => {
             const rosterDiv = document.createElement('div');
             let tableHTML = `<strong>Roster ${index + 1}:</strong><br>`;
-            tableHTML += `<table class="table table-dark table-striped"><tbody>`;
+            tableHTML += `<table class="table table-dark table-striped custom-table"><tbody>`;
             for (let i = 0; i < 5; i++) {
                 tableHTML += `
                 <tr>
                     <td><img src="${roster[i].url}" style="width:30px;height:30px;"/></td>
-                    <td>${roster[i].name}</td>
+                    <td><strong>${roster[i].name}</strong></td>
                     <td><img src="${roster[i + 5].url}" style="width:30px;height:30px;"/></td>
-                    <td>${roster[i + 5].name}</td>
+                    <td><strong>${roster[i + 5].name}</strong></td>
                 </tr>`;
             }
             tableHTML += `</tbody></table>`;
