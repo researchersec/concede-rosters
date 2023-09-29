@@ -19,99 +19,104 @@
 
     <!-- JavaScript to Load Data, Generate and Display Rosters -->
     <script>
-        document.getElementById('generateBtn').addEventListener('click', async function() {
-            const numRosters = document.getElementById('numRosters').value || 1;
+        document.getElementById('generateBtn').addEventListener('click', async function () {
+    const numRosters = document.getElementById('numRosters').value || 1;
 
-            // Load the player data from the uploaded JSON file
-            const response = await fetch('players.json');
-            const players = await response.json();
+    // Load the player data from the uploaded JSON file
+    const response = await fetch('players.json');
+    const players = await response.json();
 
-            function generateRosters(players, numRosters) {
-                const tank_classes = ['Prot Warrior', 'Prot Paladin', 'Feral Druid Tank', 'Blood DK Tank'];
-                const healer_classes = ['Holy Paladin', 'Disc Priest', 'Holy Priest', 'Resto Druid', 'Resto Shaman'];
-                const all_added_players = new Set();
+    // Call the function to generate rosters and pass the players data and numRosters
+    const { rosters, remaining_players } = generateRosters(players, numRosters);
 
-                let rosters = [];
+    // Clear previous rosters and remaining players
+    document.getElementById('rosters').innerHTML = '';
+    document.getElementById('remainingPlayers').innerHTML = '';
 
-                for (let i = 0; i < numRosters; i++) {
-                    let roster = [];
-                    let local_added_players = new Set();
-
-                    let tanks = players.filter(player => tank_classes.includes(player.class) && !all_added_players.has(player.name));
-                    let healers = players.filter(player => healer_classes.includes(player.class) && !all_added_players.has(player.name));
-                    let dps = players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class) && !all_added_players.has(player.name));
-
-                    while (roster.length < 2 && tanks.length > 0) {
-                        const tank = tanks.shift();
-                        if (!local_added_players.has(tank.name)) {
-                            roster.push(tank);
-                            local_added_players.add(tank.name);
-                            all_added_players.add(tank.name);
-                        }
-                    }
-
-                    while (roster.length < 4 && healers.length > 0) {
-                        const healer = healers.shift();
-                        if (!local_added_players.has(healer.name)) {
-                            roster.push(healer);
-                            local_added_players.add(healer.name);
-                            all_added_players.add(healer.name);
-                        }
-                    }
-
-                    while (roster.length < 10 && dps.length > 0) {
-                        const dp = dps.shift();
-                        if (!local_added_players.has(dp.name)) {
-                            roster.push(dp);
-                            local_added_players.add(dp.name);
-                            all_added_players.add(dp.name);
-                        }
-                    }
-
-                    // Shuffle the roster
-                    roster = roster.sort(() => Math.random() - 0.5);
-                    rosters.push(roster);
-                }
-
-            // Call the function to generate rosters and pass the players data and numRosters
-            const { rosters, remaining_players } = generateRosters(players, numRosters);
-
-            // Clear previous rosters and remaining players
-            document.getElementById('rosters').innerHTML = '';
-            document.getElementById('remainingPlayers').innerHTML = '';
-
-            // Display the generated rosters
-            rosters.forEach((roster, index) => {
-                const rosterDiv = document.createElement('div');
-                rosterDiv.innerHTML = `<strong>Roster ${index+1}:</strong><br>`;
-                roster.forEach(player => {
-                    if (player !== null) {
-                        rosterDiv.innerHTML += `
-                        <div class="card text-white bg-secondary mb-2" style="max-width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title"><img src="${player.url}" style="width:30px;height:30px;"/> ${player.name}</h5>
-                                <p class="card-text">Class: ${player.class}</p>
-                            </div>
-                        </div>`;
-                    }
-                });
-                document.getElementById('rosters').appendChild(rosterDiv);
-            });
-
-            // Display the players not belonging to a roster
-            const remainingDiv = document.createElement('div');
-            remainingDiv.innerHTML = '<strong>Players not belonging to a roster:</strong><br>';
-            remaining_players.forEach(player => {
-                remainingDiv.innerHTML += `
+    // Display the generated rosters
+    rosters.forEach((roster, index) => {
+        const rosterDiv = document.createElement('div');
+        rosterDiv.innerHTML = `<strong>Roster ${index + 1}:</strong><br>`;
+        roster.forEach(player => {
+            if (player !== null) {
+                rosterDiv.innerHTML += `
                 <div class="card text-white bg-secondary mb-2" style="max-width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title"><img src="${player.url}" style="width:30px;height:30px;"/> ${player.name}</h5>
                         <p class="card-text">Class: ${player.class}</p>
                     </div>
                 </div>`;
-            });
-            document.getElementById('remainingPlayers').appendChild(remainingDiv);
+            }
         });
+        document.getElementById('rosters').appendChild(rosterDiv);
+    });
+
+    // Display the players not belonging to a roster
+    const remainingDiv = document.createElement('div');
+    remainingDiv.innerHTML = '<strong>Players not belonging to a roster:</strong><br>';
+    remaining_players.forEach(player => {
+        remainingDiv.innerHTML += `
+        <div class="card text-white bg-secondary mb-2" style="max-width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title"><img src="${player.url}" style="width:30px;height:30px;"/> ${player.name}</h5>
+                <p class="card-text">Class: ${player.class}</p>
+            </div>
+        </div>`;
+    });
+    document.getElementById('remainingPlayers').appendChild(remainingDiv);
+});
+
+function generateRosters(players, numRosters) {
+    const tank_classes = ['Prot Warrior', 'Prot Paladin', 'Feral Druid Tank', 'Blood DK Tank'];
+    const healer_classes = ['Holy Paladin', 'Disc Priest', 'Holy Priest', 'Resto Druid', 'Resto Shaman'];
+    const all_added_players = new Set();
+
+    let rosters = [];
+
+    for (let i = 0; i < numRosters; i++) {
+        let roster = [];
+        let local_added_players = new Set();
+
+        let tanks = players.filter(player => tank_classes.includes(player.class) && !all_added_players.has(player.name));
+        let healers = players.filter(player => healer_classes.includes(player.class) && !all_added_players.has(player.name));
+        let dps = players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class) && !all_added_players.has(player.name));
+
+        while (roster.length < 2 && tanks.length > 0) {
+            const tank = tanks.shift();
+            if (!local_added_players.has(tank.name)) {
+                roster.push(tank);
+                local_added_players.add(tank.name);
+                all_added_players.add(tank.name);
+            }
+        }
+
+        while (roster.length < 4 && healers.length > 0) {
+            const healer = healers.shift();
+            if (!local_added_players.has(healer.name)) {
+                roster.push(healer);
+                local_added_players.add(healer.name);
+                all_added_players.add(healer.name);
+            }
+        }
+
+        while (roster.length < 10 && dps.length > 0) {
+            const dp = dps.shift();
+            if (!local_added_players.has(dp.name)) {
+                roster.push(dp);
+                local_added_players.add(dp.name);
+                all_added_players.add(dp.name);
+            }
+        }
+
+        // Shuffle the roster
+        roster = roster.sort(() => Math.random() - 0.5);
+        rosters.push(roster);
+        local_added_players.forEach(playerName => all_added_players.add(playerName));
+    }
+
+    const remaining_players = players.filter(player => !all_added_players.has(player.name));
+    return { rosters, remaining_players };
+}
     </script>
 </body>
 </html>
