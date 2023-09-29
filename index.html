@@ -79,19 +79,20 @@
     document.getElementById('remainingPlayers').innerHTML = '';
 
     rosters.forEach((roster, index) => {
-        const rosterDiv = document.createElement('div');
-        rosterDiv.innerHTML = `<strong>Roster ${index + 1}:</strong><br>`;
-        rosterDiv.innerHTML += `<table class="table table-dark table-striped"><tbody>`;
-        for (let i = 0; i < 10; i++) {
-            rosterDiv.innerHTML += `
-            <tr>
-                <td><img src="${roster[i].url}" style="width:30px;height:30px;"/></td>
-                <td>${roster[i].name} - ${roster[i].class}</td>
-            </tr>`;
-        }
-        rosterDiv.innerHTML += `</tbody></table>`;
-        document.getElementById('rosters').appendChild(rosterDiv);
-    });
+    const rosterDiv = document.createElement('div');
+    let tableHTML = `<strong>Roster ${index + 1}:</strong><br>`;
+    tableHTML += `<table class="table table-dark table-striped"><tbody>`;
+    for (let i = 0; i < 10; i++) {
+        tableHTML += `
+        <tr>
+            <td><img src="${roster[i].url}" style="width:30px;height:30px;"/></td>
+            <td>${roster[i].name} - ${roster[i].class}</td>
+        </tr>`;
+    }
+    tableHTML += `</tbody></table>`;
+    rosterDiv.innerHTML = tableHTML;
+    document.getElementById('rosters').appendChild(rosterDiv);
+});
 
     const remainingDiv = document.createElement('div');
     remainingDiv.innerHTML = '<strong>Players not belonging to a roster:</strong><br>';
