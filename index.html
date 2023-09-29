@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Generate Rosters</title>
+    <style>
+    .custom-col {
+        margin-right: 15px;
+    }
+</style>
 </head>
 <body class="bg-dark text-white">
     <div class="container mt-5">
@@ -13,8 +18,8 @@
     <input type="number" id="numRosters" name="numRosters" min="1" placeholder="Number of Rosters" value="1" class="form-control" style="width: 150px; display: inline-block;">
 
     <!-- Display Rosters -->
-    <div id="rosters" class="row mr-1">
-        <div class="col-sm"></div>
+    <div id="rosters" class="row">
+        <div class="col-sm custom-col"></div>
     </div>
 
     <!-- Display Players not belonging to a roster -->
