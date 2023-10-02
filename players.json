@@ -1,33 +1,8 @@
 [
     {
-        "name": "Harrk",
-        "class": "Prot Warrior",
-        "url": "https://cdn.discordapp.com/emojis/637564444834136065.png?v=1"
-    },
-    {
-        "name": "SteelRok",
-        "class": "Prot Warrior",
-        "url": "https://cdn.discordapp.com/emojis/637564444834136065.png?v=1"
-    },
-    {
-        "name": "Harrk",
-        "class": "Prot Paladin",
-        "url": "https://cdn.discordapp.com/emojis/637564297647489034.png?v=1"
-    },
-    {
-        "name": "Styleyez",
-        "class": "Prot Paladin",
-        "url": "https://cdn.discordapp.com/emojis/637564297647489034.png?v=1"
-    },
-    {
         "name": "Orgknight",
-        "class": "Prot Paladin",
-        "url": "https://cdn.discordapp.com/emojis/637564297647489034.png?v=1"
-    },
-    {
-        "name": "Ibuffkings",
-        "class": "Prot Paladin",
-        "url": "https://cdn.discordapp.com/emojis/637564297647489034.png?v=1"
+        "class": "Blood DK Tank",
+        "url": "https://cdn.discordapp.com/emojis/1013371175210065960.png?v=1"
     },
     {
         "name": "Orgknight",
@@ -36,13 +11,23 @@
     },
     {
         "name": "Orgknight",
-        "class": "Blood DK Tank",
-        "url": "https://cdn.discordapp.com/emojis/1013371175210065960.png?v=1"
+        "class": "Prot Paladin",
+        "url": "https://cdn.discordapp.com/emojis/637564297647489034.png?v=1"
     },
     {
-        "name": "Ragn\u00e1r",
-        "class": "Blood DK Tank",
-        "url": "https://cdn.discordapp.com/emojis/1013371175210065960.png?v=1"
+        "name": "Harrk",
+        "class": "Prot Paladin",
+        "url": "https://cdn.discordapp.com/emojis/637564297647489034.png?v=1"
+    },
+    {
+        "name": "Harrk",
+        "class": "Prot Warrior",
+        "url": "https://cdn.discordapp.com/emojis/637564444834136065.png?v=1"
+    },
+    {
+        "name": "SteelRok",
+        "class": "Prot Warrior",
+        "url": "https://cdn.discordapp.com/emojis/637564444834136065.png?v=1"
     },
     {
         "name": "Tjollahopp",
@@ -55,19 +40,19 @@
         "url": "https://cdn.discordapp.com/emojis/1013371108575162419.png?v=1"
     },
     {
-        "name": "Kunle",
-        "class": "Unholy DK",
-        "url": "https://cdn.discordapp.com/emojis/1013371108575162419.png?v=1"
+        "name": "Mintfresh",
+        "class": "Fury Warrior",
+        "url": "https://cdn.discordapp.com/emojis/637564445215948810.png?v=1"
+    },
+    {
+        "name": "FIFTYKENT",
+        "class": "Fury Warrior",
+        "url": "https://cdn.discordapp.com/emojis/637564445215948810.png?v=1"
     },
     {
         "name": "Jwhistle",
         "class": "Balance Druid",
         "url": "https://cdn.discordapp.com/emojis/637564171994529798.png?v=1"
-    },
-    {
-        "name": "Styleyez",
-        "class": "Feral Druid",
-        "url": "https://cdn.discordapp.com/emojis/637564172061900820.png?v=1"
     },
     {
         "name": "Harrk",
@@ -80,9 +65,9 @@
         "url": "https://cdn.discordapp.com/emojis/637564172007112723.png?v=1"
     },
     {
-        "name": "Jerr",
-        "class": "Holy Paladin",
-        "url": "https://cdn.discordapp.com/emojis/637564297622454272.png?v=1"
+        "name": "Spaaz",
+        "class": "Retri Paladin",
+        "url": "https://cdn.discordapp.com/emojis/637564297953673216.png?v=1"
     },
     {
         "name": "Jwhistle",
@@ -90,42 +75,37 @@
         "url": "https://cdn.discordapp.com/emojis/637564297622454272.png?v=1"
     },
     {
+        "name": "FIFTYKENT",
+        "class": "Holy Paladin",
+        "url": "https://cdn.discordapp.com/emojis/637564297622454272.png?v=1"
+    },
+    {
         "name": "Leif",
         "class": "Holy Paladin",
         "url": "https://cdn.discordapp.com/emojis/637564297622454272.png?v=1"
     },
     {
-        "name": "Spaaz",
-        "class": "Retri Paladin",
-        "url": "https://cdn.discordapp.com/emojis/637564297953673216.png?v=1"
-    },
-    {
-        "name": "Vello",
-        "class": "Retri Paladin",
-        "url": "https://cdn.discordapp.com/emojis/637564297953673216.png?v=1"
-    },
-    {
-        "name": "Jerr",
+        "name": "FIFTYKENT",
         "class": "Assas Rogue",
         "url": "https://cdn.discordapp.com/emojis/637564351707873324.png?v=1"
     },
     {
         "name": "Leif",
-        "class": "Assas Rogue",
-        "url": "https://cdn.discordapp.com/emojis/637564351707873324.png?v=1"
-    },
-    {
-        "name": "Vello",
-        "class": "MM Hunter",
-        "url": "https://cdn.discordapp.com/emojis/637564202084466708.png?v=1"
-    },
-    {
-        "name": "Waiker",
-        "class": "Survival Hunter",
-        "url": "https://cdn.discordapp.com/emojis/637564202130866186.png?v=1"
+        "class": "Combat Rogue",
+        "url": "https://cdn.discordapp.com/emojis/637564352333086720.png?v=1"
     },
     {
         "name": "Mintfresh",
+        "class": "Fire Mage",
+        "url": "https://cdn.discordapp.com/emojis/637564231239073802.png?v=1"
+    },
+    {
+        "name": "Spaaz",
+        "class": "Fire Mage",
+        "url": "https://cdn.discordapp.com/emojis/637564231239073802.png?v=1"
+    },
+    {
+        "name": "FIFTYKENT",
         "class": "Fire Mage",
         "url": "https://cdn.discordapp.com/emojis/637564231239073802.png?v=1"
     },
@@ -135,24 +115,14 @@
         "url": "https://cdn.discordapp.com/emojis/637564231239073802.png?v=1"
     },
     {
-        "name": "Candybolt",
-        "class": "Affliction Wlock",
-        "url": "https://cdn.discordapp.com/emojis/637564406984867861.png?v=1"
-    },
-    {
-        "name": "Scart",
-        "class": "Affliction Wlock",
-        "url": "https://cdn.discordapp.com/emojis/637564406984867861.png?v=1"
-    },
-    {
         "name": "Mintfresh",
         "class": "Demo Wlock",
         "url": "https://cdn.discordapp.com/emojis/637564407001513984.png?v=1"
     },
     {
-        "name": "Ragn\u00e1r",
-        "class": "Demo Wlock",
-        "url": "https://cdn.discordapp.com/emojis/637564407001513984.png?v=1"
+        "name": "Jwhistle",
+        "class": "Disc Priest",
+        "url": "https://cdn.discordapp.com/emojis/637564323442720768.png?v=1"
     },
     {
         "name": "Jwhistle",
@@ -160,32 +130,17 @@
         "url": "https://cdn.discordapp.com/emojis/637564323291725825.png?v=1"
     },
     {
-        "name": "Dunderklumpe",
+        "name": "FIFTYKENT",
         "class": "Shadow Priest",
         "url": "https://cdn.discordapp.com/emojis/637564323291725825.png?v=1"
-    },
-    {
-        "name": "Jwhistle",
-        "class": "Disc Priest",
-        "url": "https://cdn.discordapp.com/emojis/637564323442720768.png?v=1"
-    },
-    {
-        "name": "Ragn\u00e1r",
-        "class": "Disc Priest",
-        "url": "https://cdn.discordapp.com/emojis/637564323442720768.png?v=1"
-    },
-    {
-        "name": "Jerr",
-        "class": "Elemental Shaman",
-        "url": "https://cdn.discordapp.com/emojis/637564379595931649.png?v=1"
-    },
-    {
-        "name": "Dunderklumpe",
-        "class": "Elemental Shaman",
-        "url": "https://cdn.discordapp.com/emojis/637564379595931649.png?v=1"
     },
     {
         "name": "Scart",
+        "class": "Elemental Shaman",
+        "url": "https://cdn.discordapp.com/emojis/637564379595931649.png?v=1"
+    },
+    {
+        "name": "FIFTYKENT",
         "class": "Elemental Shaman",
         "url": "https://cdn.discordapp.com/emojis/637564379595931649.png?v=1"
     }
