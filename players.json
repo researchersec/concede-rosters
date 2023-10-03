@@ -20,6 +20,11 @@
         "url": "https://cdn.discordapp.com/emojis/637564297647489034.png?v=1"
     },
     {
+        "name": "Ibuffkings",
+        "class": "Prot Paladin",
+        "url": "https://cdn.discordapp.com/emojis/637564297647489034.png?v=1"
+    },
+    {
         "name": "Harrk",
         "class": "Prot Warrior",
         "url": "https://cdn.discordapp.com/emojis/637564444834136065.png?v=1"
@@ -85,14 +90,24 @@
         "url": "https://cdn.discordapp.com/emojis/637564297622454272.png?v=1"
     },
     {
-        "name": "FIFTYKENT",
-        "class": "Assas Rogue",
-        "url": "https://cdn.discordapp.com/emojis/637564351707873324.png?v=1"
+        "name": "Jerr",
+        "class": "Holy Paladin",
+        "url": "https://cdn.discordapp.com/emojis/637564297622454272.png?v=1"
     },
     {
         "name": "Leif",
         "class": "Combat Rogue",
         "url": "https://cdn.discordapp.com/emojis/637564352333086720.png?v=1"
+    },
+    {
+        "name": "FIFTYKENT",
+        "class": "Assas Rogue",
+        "url": "https://cdn.discordapp.com/emojis/637564351707873324.png?v=1"
+    },
+    {
+        "name": "Jerr",
+        "class": "Assas Rogue",
+        "url": "https://cdn.discordapp.com/emojis/637564351707873324.png?v=1"
     },
     {
         "name": "Mintfresh",
@@ -141,6 +156,11 @@
     },
     {
         "name": "FIFTYKENT",
+        "class": "Elemental Shaman",
+        "url": "https://cdn.discordapp.com/emojis/637564379595931649.png?v=1"
+    },
+    {
+        "name": "Jerr",
         "class": "Elemental Shaman",
         "url": "https://cdn.discordapp.com/emojis/637564379595931649.png?v=1"
     }
