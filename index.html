@@ -32,99 +32,143 @@
     <!-- JavaScript to Load Data, Generate and Display Rosters -->
     <script>
     document.getElementById('generateBtn').addEventListener('click', async function () {
-        const numRosters = document.getElementById('numRosters').value || 1;
+    const numRosters = document.getElementById('numRosters').value || 1;
 
-        const response = await fetch('players.json');
-        const players = await response.json();
+    const response = await fetch('players.json');
+    const players = await response.json();
 
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function generateRosters(players, numRosters) {
+        const tank_classes = ['Prot Warrior', 'Prot Paladin', 'Feral Druid Tank', 'Blood DK Tank'];
+        const healer_classes = ['Holy Paladin', 'Disc Priest', 'Holy Priest', 'Resto Druid', 'Resto Shaman'];
+        const all_added_combinations = new Set();
+        const needed_classes_count = {
+            'tank': 2 * numRosters,
+            'healer': 2 * numRosters,
+            'dps': 6 * numRosters
+        };
+
+        let rosters = [];
+
+        for (let i = 0; i < numRosters; i++) {
+            let roster = [];
+            let added_to_current_roster = new Set(); // Track players added to the current roster
+
+            let shuffled_players = shuffle([...players]);
+
+            let tank_count = 0;
+            let healer_count = 0;
+            let dps_count = 0;
+
+            for (const player of shuffled_players) {
+                if (tank_count < 2 && tank_classes.includes(player.class) && !added_to_current_roster.has(player.name) && !all_added_combinations.has(player.name + '-' + player.class)) {
+                    roster.push(player);
+                    all_added_combinations.add(player.name + '-' + player.class);
+                    added_to_current_roster.add(player.name);
+                    tank_count++;
+                    needed_classes_count['tank']--;
+                } else if (healer_count < 2 && healer_classes.includes(player.class) && !added_to_current_roster.has(player.name) && !all_added_combinations.has(player.name + '-' + player.class)) {
+                    roster.push(player);
+                    all_added_combinations.add(player.name + '-' + player.class);
+                    added_to_current_roster.add(player.name);
+                    healer_count++;
+                    needed_classes_count['healer']--;
+                } else if (dps_count < 6 && !tank_classes.includes(player.class) && !healer_classes.includes(player.class) && !added_to_current_roster.has(player.name) && !all_added_combinations.has(player.name + '-' + player.class)) {
+                    roster.push(player);
+                    all_added_combinations.add(player.name + '-' + player.class);
+                    added_to_current_roster.add(player.name);
+                    dps_count++;
+                    needed_classes_count['dps']--;
+                }
             }
-            return array;
+
+            roster = shuffle(roster);
+            rosters.push(roster);
         }
 
-        function generateRosters(players, numRosters) {
-            const tank_classes = ['Prot Warrior', 'Prot Paladin', 'Feral Druid Tank', 'Blood DK Tank'];
-            const healer_classes = ['Holy Paladin', 'Disc Priest', 'Holy Priest', 'Resto Druid', 'Resto Shaman'];
-            const all_added_combinations = new Set(); // Changed from all_added to all_added_combinations
+        const remaining_players = players.filter(player => !all_added_combinations.has(player.name + '-' + player.class));
 
-            let rosters = [];
-
-            for (let i = 0; i < numRosters; i++) {
-                let roster = [];
-
-                let tanks = shuffle(players.filter(player => tank_classes.includes(player.class) && !all_added_combinations.has(player.name + '-' + player.class)));
-                let healers = shuffle(players.filter(player => healer_classes.includes(player.class) && !all_added_combinations.has(player.name + '-' + player.class)));
-                let dps = shuffle(players.filter(player => !tank_classes.includes(player.class) && !healer_classes.includes(player.class) && !all_added_combinations.has(player.name + '-' + player.class)));
-
-                while (roster.length < 2 && tanks.length > 0) {
-                    const tank = tanks.shift();
-                    roster.push(tank);
-                    all_added_combinations.add(tank.name + '-' + tank.class);
-                }
-
-                while (roster.length < 4 && healers.length > 0) {
-                    const healer = healers.shift();
-                    roster.push(healer);
-                    all_added_combinations.add(healer.name + '-' + healer.class);
-                }
-
-                while (roster.length < 10 && dps.length > 0) {
-                    const dp = dps.shift();
-                    roster.push(dp);
-                    all_added_combinations.add(dp.name + '-' + dp.class);
-                }
-
-                roster = shuffle(roster);
-                rosters.push(roster);
-            }
-
-            const remaining_players = players.filter(player => !all_added_combinations.has(player.name + '-' + player.class));
-            return { rosters, remaining_players };
+        let missing_combinations = [];
+        if (needed_classes_count['tank'] > 0) {
+            missing_combinations.push({ 'type': 'tank', 'needed': needed_classes_count['tank'] });
+        }
+        if (needed_classes_count['healer'] > 0) {
+            missing_combinations.push({ 'type': 'healer', 'needed': needed_classes_count['healer'] });
+        }
+        if (needed_classes_count['dps'] > 0) {
+            missing_combinations.push({ 'type': 'dps', 'needed': needed_classes_count['dps'] });
         }
 
-        const { rosters, remaining_players } = generateRosters(players, numRosters);
+        return { rosters, remaining_players, missing_combinations };
+    }
 
-        document.getElementById('rosters').innerHTML = '';
-        document.getElementById('remainingPlayers').innerHTML = '';
+    const { rosters, remaining_players, missing_combinations } = generateRosters(players, numRosters);
 
-        rosters.forEach((roster, index) => {
-        const rosterDiv = document.createElement('div');
-        rosterDiv.classList.add('custom-col'); // Add this line to add a class to the div
-        let tableHTML = `<strong>Roster ${index + 1}:</strong><br>`;
-        tableHTML += `<table class="table table-dark table-striped custom-table"><tbody>`;
-        for (let i = 0; i < 5; i++) {
+    document.getElementById('rosters').innerHTML = '';
+    document.getElementById('remainingPlayers').innerHTML = '';
+
+    rosters.forEach((roster, index) => {
+    const rosterDiv = document.createElement('div');
+    rosterDiv.classList.add('custom-col');
+    let tableHTML = `<strong>Roster ${index + 1}:</strong><br>`;
+    tableHTML += `<table class="table table-dark table-striped custom-table"><tbody>`;
+    for (let i = 0; i < 5; i++) {
+        tableHTML += `<tr>`;
+        if (roster[i]) {
             tableHTML += `
-            <tr>
                 <td><img src="${roster[i].url}" style="width:30px;height:30px;"/></td>
-                <td><strong>${roster[i].name}</strong></td>
-                <td><img src="${roster[i + 5].url}" style="width:30px;height:30px;"/></td>
-                <td><strong>${roster[i + 5].name}</strong></td>
-            </tr>`;
+                <td><strong>${roster[i].name}</strong></td>`;
+        } else {
+            tableHTML += `<td></td><td></td>`;
         }
-        tableHTML += `</tbody></table>`;
-        rosterDiv.innerHTML = tableHTML;
-        document.getElementById('rosters').appendChild(rosterDiv);
+        if (roster[i + 5]) {
+            tableHTML += `
+                <td><img src="${roster[i + 5].url}" style="width:30px;height:30px;"/></td>
+                <td><strong>${roster[i + 5].name}</strong></td>`;
+        } else {
+            tableHTML += `<td></td><td></td>`;
+        }
+        tableHTML += `</tr>`;
+    }
+    tableHTML += `</tbody></table>`;
+    rosterDiv.innerHTML = tableHTML;
+    document.getElementById('rosters').appendChild(rosterDiv);
+});
+
+    const remainingDiv = document.createElement('div');
+    remainingDiv.classList.add('custom-col');
+    let remainingHTML = '<strong>Players not belonging to a roster:</strong><br>';
+    remainingHTML += `<table class="table table-dark table-striped custom-table"><tbody>`;
+    remaining_players.forEach(player => {
+        remainingHTML += `
+        <tr>
+            <td><img src="${player.url}" style="width:30px;height:30px;"/></td>
+            <td><strong>${player.name}</strong></td>
+        </tr>`;
     });
+    remainingHTML += `</tbody></table>`;
+    remainingDiv.innerHTML = remainingHTML;
+    document.getElementById('remainingPlayers').appendChild(remainingDiv);
 
-
-        const remainingDiv = document.createElement('div');
-        remainingDiv.classList.add('custom-col');
-        let remainingHTML = '<strong>Players not belonging to a roster:</strong><br>';
-        remainingHTML += `<table class="table table-dark table-striped custom-table"><tbody>`;
-        remaining_players.forEach(player => {
-            remainingHTML += `
-            <tr>
-                <td><img src="${player.url}" style="width:30px;height:30px;"/></td>
-                <td><strong>${player.name}</strong></td>
-            </tr>`;
+// Display missing player-class combinations
+    if (missing_combinations.length > 0) {
+        let missingHTML = '<strong>Missing player-class combinations to complete rosters:</strong><br>';
+        missing_combinations.forEach(missing => {
+            missingHTML += `<p>Need ${missing.needed} more ${missing.type}(s).</p>`;
         });
-        remainingHTML += `</tbody></table>`;
-        remainingDiv.innerHTML = remainingHTML;
-        document.getElementById('remainingPlayers').appendChild(remainingDiv);
-        });
+        const missingDiv = document.createElement('div');
+        missingDiv.classList.add('custom-col');
+        missingDiv.innerHTML = missingHTML;
+        document.getElementById('remainingPlayers').appendChild(missingDiv);
+    }
+});
 </script>
     </div>
 </body>
